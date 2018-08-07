@@ -3,7 +3,13 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
+)
+
+var (
+	mVersion = flag.Bool("v", false, "Print version information")
+	mDebu    = flag.Bool("d", false, "Enable debug mode")
 )
 
 func main() {
@@ -36,5 +42,11 @@ func main() {
 		fmt.Fprintf(os.Stderr, "%s\n", help)
 	}
 
-    flag.Parse()
+	flag.Parse()
+
+	cli := DockerCli{}
+
+	if err := cli.Cmd(flag.Args()...); err != nil {
+		log.Fatal(err)
+	}
 }
